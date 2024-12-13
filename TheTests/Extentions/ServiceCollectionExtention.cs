@@ -44,7 +44,6 @@ namespace Microsoft.Extensions.DependencyInjection
                         RequireUppercase = false,
                         RequiredLength = 6
                     };
-                    //options.SignIn.RequireConfirmedAccount = false;
                     identityOptions.SignIn = new SignInOptions
                     {
                         RequireConfirmedAccount = false,
