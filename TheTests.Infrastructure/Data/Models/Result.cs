@@ -1,6 +1,6 @@
-﻿namespace TheTests.Infrastructure.Models
+﻿namespace TheTests.Infrastructure.Data.Models
 {
-    public class TestResult
+    public class Result
     {
         public int Id { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static TheTests.Infrastructure.Constants;
 
-namespace TheTests.Infrastructure.Models;
+namespace TheTests.Infrastructure.Data.Models;
 public class Test
 {
     public int Id { get; set; }
@@ -14,14 +14,14 @@ public class Test
     [StringLength(MaxDescriptionLength)]
     public string Description { get; set; } = string.Empty;
 
-    public string CreatorId { get; set; }
+    public string CreatorId { get; set; } = string.Empty;
     public AppUser Creator { get; set; } = null!;
 
     public int CategoryId { get; set; }
-    public TestCategory Category { get; set; } = null!;
+    public Category Category { get; set; } = null!;
 
-    public ICollection<Question> Questions { get; set; } = [];
+    public ICollection<Question> Questions { get; set; } = new List<Question>();
 
-    public ICollection<TestResult> Results { get; set; } = [];
+    public ICollection<Result> Results { get; set; } = new List<Result>();
 }
 

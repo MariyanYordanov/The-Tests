@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static TheTests.Infrastructure.Constants;
 
-namespace TheTests.Infrastructure.Models
+namespace TheTests.Infrastructure.Data.Models
 {
-    public class TestCategory
+    public class Category
     {
         public int Id { get; set; }
 
@@ -11,6 +11,6 @@ namespace TheTests.Infrastructure.Models
         [StringLength(MaxNameLength)]
         public string Name { get; set; } = string.Empty;
 
-        public ICollection<Test> Tests { get; set; } = [];
+        public ICollection<Test> Tests { get; set; } = new List<Test>();
     }
 }

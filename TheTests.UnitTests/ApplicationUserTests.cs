@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using TheTests.Infrastructure.Models;
+using TheTests.Infrastructure.Data.Models;
 using static TheTests.Infrastructure.Constants;
 
 namespace TheTests.UnitTests
@@ -13,7 +13,7 @@ namespace TheTests.UnitTests
             var userName = "testuser";
 
             // Act
-            var user = new AppUser(userName);
+            var user = new AppUser();
 
             // Assert
             Assert.Equal(userName, user.UserName);
@@ -23,7 +23,7 @@ namespace TheTests.UnitTests
         public void FullName_ShouldReturnConcatenationOfFirstAndLastName()
         {
             // Arrange
-            var user = new AppUser("testuser")
+            var user = new AppUser()
             {
                 FirstName = "John",
                 LastName = "Doe"
@@ -40,7 +40,7 @@ namespace TheTests.UnitTests
         public void FullName_ShouldReturnEmptyString_WhenFirstAndLastNameAreEmpty()
         {
             // Arrange
-            var user = new AppUser("testuser");
+            var user = new AppUser();
 
             // Act
             var fullName = user.FullName;
@@ -53,7 +53,7 @@ namespace TheTests.UnitTests
         public void DisplayName_ShouldReturnFullName_WhenFullNameIsNotEmpty()
         {
             // Arrange
-            var user = new AppUser("testuser")
+            var user = new AppUser()
             {
                 FirstName = "John",
                 LastName = "Doe"
@@ -70,7 +70,7 @@ namespace TheTests.UnitTests
         public void DisplayName_ShouldReturnUserName_WhenFullNameIsEmpty()
         {
             // Arrange
-            var user = new AppUser("testuser");
+            var user = new AppUser();
 
             // Act
             var displayName = user.DisplayName;
@@ -83,7 +83,7 @@ namespace TheTests.UnitTests
         public void FirstName_ShouldRespectMaxNameLength()
         {
             // Arrange
-            var user = new AppUser("testuser");
+            var user = new AppUser();
             var tooLongName = new string('a', MaxNameLength + 1);
 
             // Act & Assert
@@ -94,7 +94,7 @@ namespace TheTests.UnitTests
         public void LastName_ShouldRespectStringLengthLimit()
         {
             // Arrange
-            var user = new AppUser("testuser");
+            var user = new AppUser();
             var tooLongName = new string('a', MaxNameLength + 1);
 
             // Act & Assert
