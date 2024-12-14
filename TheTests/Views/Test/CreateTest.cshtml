@@ -1,4 +1,5 @@
-﻿@model TestCreateModel
+﻿
+@model TestCreateModel
 
 @{
     ViewData["Title"] = "Create Test";
@@ -14,12 +15,15 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
-        <div class="mb-3">
-            <label for="SelectedCategoryId" class="form-label">Category</label>
-            <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
-                <option value="">-- Select a category --</option>
-            </select>
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <div style="flex: 1;">
+                <label for="SelectedCategoryId" class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
+                    <option value="">-- Select a category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <button type="button" class="btn btn-secondary ms-3" id="add-category-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
         </div>
 
         <div id="questions-section">
@@ -28,6 +32,15 @@
             {
                 for (var i = 0; i < Model.Questions.Count; i++)
                 {
+                    <div class="mb-3">
+                        <label for="SelectedQuestionType" class="form-label">Question Type</label>
+                        <select asp-for="SelectedQuestionType" class="form-select" asp-items="Model.QuestionTypes">
+                            <option value="">-- Select question type --</option>
+                        </select>
+                        <span asp-validation-for="SelectedQuestionType" class="text-danger"></span>
+                    </div>
+
+
                     <div class="mb-3">
                         <label asp-for="Questions[@i].Text" class="form-label">Question @i</label>
                         <input asp-for="Questions[i].Text" class="form-control" />
@@ -59,3 +72,71 @@
         <button type="submit" class="btn btn-primary mt-4">Create Test</button>
     </form>
 </div>
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-category-form">
+                    <div class="mb-3">
+                        <label for="NewCategoryName" class="form-label">Category Name</label>
+                        <input type="text" id="NewCategoryName" class="form-control" />
+                        <span id="add-category-error" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-category-btn">Save Category</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("save-category-btn").addEventListener("click", function () {
+            var categoryName = document.getElementById("NewCategoryName").value;
+
+            if (!categoryName) {
+                document.getElementById("add-category-error").textContent = "Category name is required.";
+                return;
+            }
+
+            // Example AJAX call to save the category (update endpoint as needed)
+            fetch('/Category/AddCategory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Name: categoryName })
+            }).then(response => {
+                if (response.ok) {
+                    // Add new category to the dropdown
+                    response.json().then(data => {
+                        const select = document.querySelector('select[asp-for="CategoryId"]');
+                        const newOption = document.createElement("option");
+                        newOption.value = data.id;
+                        newOption.textContent = data.name;
+                        select.appendChild(newOption);
+                        select.value = data.id;
+
+                        // Close the modal
+                        var modal = bootstrap.Modal.getInstance(document.getElementById("addCategoryModal"));
+                        modal.hide();
+                    });
+                } else {
+                    document.getElementById("add-category-error").textContent = "Failed to save category.";
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+                document.getElementById("add-category-error").textContent = "An error occurred.";
+            });
+        });
+    </script>
+}

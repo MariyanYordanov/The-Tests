@@ -1,17 +1,23 @@
-﻿using TheTests.Core.Contracts;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
+using TheTests.Core.Contracts;
 using TheTests.Core.Models.Test;
 using TheTests.Infrastructure.Data.Common;
 using TheTests.Infrastructure.Data.Models;
+using System.Security.Claims;
 
 namespace TheTests.Core.Services
 {
     public class TestService : ITestService
     {
         private readonly IRepository _repository;
+        private readonly UserManager<AppUser> _userManager;
 
-        public TestService(IRepository repository)
+        public TestService(IRepository repository, UserManager<AppUser> userManager)
         {
             _repository = repository;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<QuestionType>> GetQuestionTypesAsync()
@@ -24,11 +30,14 @@ namespace TheTests.Core.Services
             var test = new Test
             {
                 Title = model.Title,
+                Description = model.Description,
+                CreatorId = model.CreatorId, 
+                CategoryId = model.CategoryId,
                 Questions = model.Questions.Select(q => new Question
                 {
                     Description = q.Text,
                     Points = q.Points,
-                    QuestionType = q.QuestionType,
+                    QuestionType = (QuestionType)model.SelectedQuestionType,
                     Answers = q.Answers.Select(a => new Answer
                     {
                         Text = a.Text,
@@ -39,6 +48,18 @@ namespace TheTests.Core.Services
 
             await _repository.AddAsync(test);
             await _repository.SaveChangesAsync();
+        }
+
+
+        public List<SelectListItem> GetQuestionTypes()
+        {
+            return Enum.GetValues(typeof(QuestionType))
+                       .Cast<QuestionType>()
+                       .Select(qt => new SelectListItem
+                       {
+                           Value = ((int)qt).ToString(),
+                           Text = qt.ToString()
+                       }).ToList();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheTests.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TheTests.Infrastructure.Data;
 namespace TheTests.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241214150113_TestFunc")]
+    partial class TestFunc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,7 +283,7 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36c7f0b6-42fb-499c-918a-79681f17769b",
+                            ConcurrencyStamp = "706dbf06-077d-483a-ada0-dbf9dfd286bd",
                             Email = "john.doe@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
@@ -288,9 +291,9 @@ namespace TheTests.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAED6mWUBE1EfZnM6OUQ1SsM4lfZqg0JPXIKTn7xpjAK+/6gaR1n84w8P2s3kfJhpCpw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL7sSPAPiDL99Cw2kblaL9VeXjsaqDMGvQVYH3ispGDpYZ3s+y4H1d65caOIGkJ0Cw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4a2b1df8-012f-458f-a7d7-8ce4dd45d8ae",
+                            SecurityStamp = "f5980242-f511-4422-8217-afdebcd3bf8e",
                             TwoFactorEnabled = false,
                             UserName = "john.doe"
                         },
@@ -298,7 +301,7 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7f3d317-035a-46f8-9863-081861bb27b1",
+                            ConcurrencyStamp = "db7e9969-183e-4dfb-8442-9c7039c34ddb",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
@@ -306,9 +309,9 @@ namespace TheTests.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH",
-                            PasswordHash = "AQAAAAIAAYagAAAAELbEuA24qkjgsXMvsOdE1ncowyITCWD1zLXeoLUuP45QyFTkYuLNet9N9fe+u4eAsw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO1lgnZ9bCfRP9dvpMe/UdGrZQcEJlX58YEfjo0mJBfl0e8/eDvSYyhEyWhU6uQh2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "11fb6e21-ad29-474c-bae0-b6483312cddc",
+                            SecurityStamp = "2705a867-2f42-43a4-bca2-06b274b5dde0",
                             TwoFactorEnabled = false,
                             UserName = "jane.smith"
                         });
@@ -428,7 +431,7 @@ namespace TheTests.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CompletedAt = new DateTime(2024, 12, 14, 15, 30, 58, 665, DateTimeKind.Utc).AddTicks(3071),
+                            CompletedAt = new DateTime(2024, 12, 14, 15, 1, 12, 430, DateTimeKind.Utc).AddTicks(5062),
                             Score = 100,
                             TestId = 1,
                             UserId = "1"

@@ -1,4 +1,5 @@
-﻿using TheTests.Core.Models.Test;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using TheTests.Core.Models.Test;
 using TheTests.Infrastructure.Data.Models;
 
 namespace TheTests.Core.Contracts
@@ -7,5 +8,7 @@ namespace TheTests.Core.Contracts
     {
         Task<IEnumerable<QuestionType>> GetQuestionTypesAsync();
         Task CreateTestAsync(TestCreateModel model);
+
+        public List<SelectListItem> GetQuestionTypes();
     }
 }

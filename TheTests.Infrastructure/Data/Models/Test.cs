@@ -28,6 +28,11 @@ namespace TheTests.Infrastructure.Data.Models
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
+        /// The type of the question.
+        /// </summary>
+        public QuestionType QuestionType { get; set; }
+
+        /// <summary>
         /// The creator of the test.
         /// </summary>
         public string CreatorId { get; set; } = string.Empty;
