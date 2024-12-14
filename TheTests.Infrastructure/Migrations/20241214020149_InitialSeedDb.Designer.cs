@@ -12,7 +12,7 @@ using TheTests.Infrastructure.Data;
 namespace TheTests.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241213085103_InitialSeedDb")]
+    [Migration("20241214020149_InitialSeedDb")]
     partial class InitialSeedDb
     {
         /// <inheritdoc />
@@ -283,16 +283,16 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "184702ef-b116-48a2-ae6b-bb5edb48459d",
+                            ConcurrencyStamp = "247c1d26-4e2b-4a4e-9431-01008b3c3c34",
                             Email = "john.doe@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAu40AweOg1cOmNezmrbA7Zj8nyy0XZh1I3YwOOyUlZD7Pqt60GRHxELKZcLQaCw1g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPcfoscEcRdbsAEl9rWeJWmIWdpMdm+aqBnrB57KCjIXo3/wE/qHbHtAm1BK4HX8Bw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bd9d8a91-a8b9-4014-9e3c-b8b2f9f40748",
+                            SecurityStamp = "560b1beb-f54c-4745-8de3-f17a76eef5fd",
                             TwoFactorEnabled = false,
                             UserName = "john.doe"
                         },
@@ -300,16 +300,16 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f9ff5b5-b7b9-44eb-af89-666fe078f8dd",
+                            ConcurrencyStamp = "cdadd46f-0e82-46dc-9aa8-aeb204a467d6",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOiLwxqI85MoN91Oe8+VaNAC56fyg5y+iVGnJeuSpJTrfaCMYP04Jef4cwIax2+GpQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOwGFHK4z5juJTThc42VYCOi/wwnHYdSFGMhVZ785rvmzNcV+SnO+ZO1fmxi/LXSaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "98ccd408-0897-4424-9369-67ebef32afd0",
+                            SecurityStamp = "d92a99b7-2286-4bf4-aa6d-e57baf44a763",
                             TwoFactorEnabled = false,
                             UserName = "jane.smith"
                         });
@@ -429,7 +429,7 @@ namespace TheTests.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CompletedAt = new DateTime(2024, 12, 13, 8, 51, 2, 842, DateTimeKind.Utc).AddTicks(5700),
+                            CompletedAt = new DateTime(2024, 12, 14, 2, 1, 49, 55, DateTimeKind.Utc).AddTicks(9521),
                             Score = 100,
                             TestId = 1,
                             UserId = "1"

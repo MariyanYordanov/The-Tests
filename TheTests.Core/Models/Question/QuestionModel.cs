@@ -1,55 +1,46 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TheTests.Infrastructure.Data.Models;
 using static TheTests.Infrastructure.Constants;
+using static TheTests.Core.ErrorMessages;
 
-namespace TheTests.Infrastructure.Data.Models
+namespace TheTests.Core.Models.Question
 {
     /// <summary>
-    /// The question entity.
+    /// This class represents the Question model.
     /// </summary>
-    public class Question
+    public class QuestionModel
     {
         /// <summary>
-        /// The maximum length of the title.
+        /// The id of the question.
         /// </summary>
+        [Required(ErrorMessage = RequierdField)]
         public int Id { get; set; }
 
         /// <summary>
         /// The title of the question.
         /// </summary>
-        [Required]
-        [StringLength(MaxTitleLength)]
+        [Required(ErrorMessage = RequierdField)]
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// The points of the question.
         /// </summary>
-        [Required]  
-        [StringLength(MaxPoints)]
+        [Required(ErrorMessage = RequierdField)]
         public int Points { get; set; }
 
         /// <summary>
         /// The description of the question.
         /// </summary>
         [Required]
-        [StringLength(MaxDescriptionLength)]
+        [StringLength(MaxDescriptionLength, 
+            MinimumLength = MinDescriptionLength, 
+            ErrorMessage = RequieredLength)]
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// The type of the question.
+        /// The test id of the question.
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = RequierdField)]
         public QuestionType QuestionType { get; set; }
-
-        /// <summary>
-        /// The answers of the question.
-        /// </summary>
-        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
-
-        /// <summary>
-        /// The test of the question.
-        /// </summary>
-        public int TestId { get; set; }
-        public Test Test { get; set; } = null!;
     }
 }
-

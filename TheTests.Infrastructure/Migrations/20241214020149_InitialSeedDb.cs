@@ -278,8 +278,8 @@ namespace TheTests.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "184702ef-b116-48a2-ae6b-bb5edb48459d", "john.doe@example.com", false, "John", "Doe", false, null, "JOHN.DOE@EXAMPLE.COM", null, "AQAAAAIAAYagAAAAEAu40AweOg1cOmNezmrbA7Zj8nyy0XZh1I3YwOOyUlZD7Pqt60GRHxELKZcLQaCw1g==", null, false, "bd9d8a91-a8b9-4014-9e3c-b8b2f9f40748", false, "john.doe" },
-                    { "2", 0, "5f9ff5b5-b7b9-44eb-af89-666fe078f8dd", "jane.smith@example.com", false, "Jane", "Smith", false, null, "JANE.SMITH@EXAMPLE.COM", null, "AQAAAAIAAYagAAAAEOiLwxqI85MoN91Oe8+VaNAC56fyg5y+iVGnJeuSpJTrfaCMYP04Jef4cwIax2+GpQ==", null, false, "98ccd408-0897-4424-9369-67ebef32afd0", false, "jane.smith" }
+                    { "1", 0, "247c1d26-4e2b-4a4e-9431-01008b3c3c34", "john.doe@example.com", false, "John", "Doe", false, null, "JOHN.DOE@EXAMPLE.COM", null, "AQAAAAIAAYagAAAAEPcfoscEcRdbsAEl9rWeJWmIWdpMdm+aqBnrB57KCjIXo3/wE/qHbHtAm1BK4HX8Bw==", null, false, "560b1beb-f54c-4745-8de3-f17a76eef5fd", false, "john.doe" },
+                    { "2", 0, "cdadd46f-0e82-46dc-9aa8-aeb204a467d6", "jane.smith@example.com", false, "Jane", "Smith", false, null, "JANE.SMITH@EXAMPLE.COM", null, "AQAAAAIAAYagAAAAEOwGFHK4z5juJTThc42VYCOi/wwnHYdSFGMhVZ785rvmzNcV+SnO+ZO1fmxi/LXSaw==", null, false, "d92a99b7-2286-4bf4-aa6d-e57baf44a763", false, "jane.smith" }
                 });
 
             migrationBuilder.InsertData(
@@ -305,7 +305,7 @@ namespace TheTests.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Results",
                 columns: new[] { "Id", "CompletedAt", "Score", "TestId", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 12, 13, 8, 51, 2, 842, DateTimeKind.Utc).AddTicks(5700), 100, 1, "1" });
+                values: new object[] { 1, new DateTime(2024, 12, 14, 2, 1, 49, 55, DateTimeKind.Utc).AddTicks(9521), 100, 1, "1" });
 
             migrationBuilder.InsertData(
                 table: "Answers",
