@@ -105,6 +105,7 @@ namespace TheTests.Infrastructure.Data
                     FirstName = "John",
                     LastName = "Doe",
                     UserName = "john.doe",
+                    NormalizedUserName = "JOHN.DOE",
                     Email = "john.doe@example.com",
                     NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                     PasswordHash = hasher.HashPassword(null, "Password123!")
@@ -115,6 +116,7 @@ namespace TheTests.Infrastructure.Data
                     FirstName = "Jane",
                     LastName = "Smith",
                     UserName = "jane.smith",
+                    NormalizedUserName = "JANE.SMITH",
                     Email = "jane.smith@example.com",
                     NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                     PasswordHash = hasher.HashPassword(null, "Password123!")

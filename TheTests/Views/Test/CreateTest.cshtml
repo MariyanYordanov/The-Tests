@@ -1,0 +1,61 @@
+﻿@model TestCreateModel
+
+@{
+    ViewData["Title"] = "Create Test";
+}
+
+<div class="container mt-4" style="width: 75%;">
+    <h1 class="mb-4">Create Test</h1>
+
+    <form asp-action="CreateTest" method="post">
+        <div class="mb-3">
+            <label for="Title" class="form-label">Test title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="SelectedCategoryId" class="form-label">Category</label>
+            <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
+                <option value="">-- Select a category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div id="questions-section">
+            <h3>Add Question</h3>
+            @if (Model.Questions.Any())
+            {
+                for (var i = 0; i < Model.Questions.Count; i++)
+                {
+                    <div class="mb-3">
+                        <label asp-for="Questions[@i].Text" class="form-label">Question @i</label>
+                        <input asp-for="Questions[i].Text" class="form-control" />
+                        <span asp-validation-for="Questions[i].Text" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Questions[@i].Points" class="form-label">Points</label>
+                        <input asp-for="Questions[i].Points" type="number" class="form-control" />
+                        <span asp-validation-for="Questions[i].Points" class="text-danger"></span>
+                    </div>
+
+                    <h4>Answers</h4>
+                    <div id="answers">
+                        @for (var j = 0; j < 4; j++)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Questions[i].Answers[j].Text" class="form-label">Answer @j</label>
+                                <input asp-for="Questions[i].Answers[j].Text" class="form-control" />
+                                <input asp-for="Questions[i].Answers[j].IsCorrect" type="checkbox" />
+                                <span asp-validation-for="Questions[i].Answers[j].Text" class="text-danger"></span>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Create Test</button>
+    </form>
+</div>

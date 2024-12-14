@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TheTests.Core.Contracts;
+using TheTests.Core.Services;
 using TheTests.Infrastructure.Data;
+using TheTests.Infrastructure.Data.Common;
 using TheTests.Infrastructure.Data.Models;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -18,7 +21,13 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            //services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<ITestService, TestService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IAnswerServices, AnswerService>();
+            services.AddScoped<IResultService, ResultService>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             return services;
