@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TheTests.Infrastructure.Data.Models.QuestionType;
+using TheTests.Infrastructure.Data.Models;
 
 namespace TheTests.Core.Models
 {
-    public class Question
+    public class QuestionModel
     {
         public int Id { get; set; }
 
