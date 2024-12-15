@@ -1,8 +1,11 @@
-﻿namespace TheTests.Infrastructure.Data.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace TheTests.Infrastructure.Data.Models
 {
     /// <summary>
     /// The result entity.
     /// </summary>
+    [Comment("The result entity.")]
     public class Result
     {
         /// <summary>

@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using TheTests.Core.Contracts;
 using TheTests.Core.Models.Test;
 using TheTests.Infrastructure.Data.Common;
 using TheTests.Infrastructure.Data.Models;
-using System.Security.Claims;
 
 namespace TheTests.Core.Services
 {
@@ -60,6 +59,20 @@ namespace TheTests.Core.Services
                            Value = ((int)qt).ToString(),
                            Text = qt.ToString()
                        }).ToList();
+        }
+
+
+        public async Task<IEnumerable<TestModel>> GetAllTestsByUserIdAsync(string userId)
+        {
+            return await _repository.AllReadonly<Test>()
+                .Where(t => t.CreatorId == userId)
+                .Select(t => new TestModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    CategoryId = t.CategoryId
+                }).ToListAsync();
         }
     }
 }

@@ -90,5 +90,18 @@ namespace TheTests.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        /// <summary>
+        /// The my tests action
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> MyTests()
+        {
+            var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
+
+            return View(tests);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using static TheTests.Infrastructure.Constants;
 
 namespace TheTests.Infrastructure.Data.Models
@@ -6,6 +7,7 @@ namespace TheTests.Infrastructure.Data.Models
     /// <summary>
     /// The question entity.
     /// </summary>
+    [Comment("The question entity.")]
     public class Question
     {
         /// <summary>
