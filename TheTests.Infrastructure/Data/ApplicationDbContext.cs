@@ -28,6 +28,16 @@ namespace TheTests.Infrastructure.Data
                 .IsRequired();
 
             builder.Entity<Test>()
+                .Property(t => t.Title)
+            .IsRequired()
+            .HasMaxLength(Constants.MaxTitleLength);
+
+            builder.Entity<Test>()
+                .Property(t => t.Description)
+                .IsRequired()
+                .HasMaxLength(Constants.MaxDescriptionLength);
+
+            builder.Entity<Test>()
                 .HasOne(t => t.Creator)
                 .WithMany()
                 .HasForeignKey(t => t.CreatorId)
@@ -37,6 +47,12 @@ namespace TheTests.Infrastructure.Data
                 .HasOne(t => t.Category)
                 .WithMany(c => c.Tests)
                 .HasForeignKey(t => t.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Test>()
+                .HasMany(t => t.Questions)
+                .WithOne(q => q.Test)
+                .HasForeignKey(q => q.TestId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Question>()

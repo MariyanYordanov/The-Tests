@@ -21,6 +21,9 @@
                 <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
                     <option value="">-- Select a category --</option>
                 </select>
+                <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
+                    <option value="">-- Select a category --</option>
+                </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <button type="button" class="btn btn-secondary ms-3" id="add-category-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>

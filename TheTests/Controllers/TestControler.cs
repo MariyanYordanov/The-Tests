@@ -31,37 +31,28 @@ namespace TheTests.Controllers
         public async Task<IActionResult> CreateTest()
         {
             var questionTypes = await _testService.GetQuestionTypesAsync();
+            var questionTypeItems = questionTypes.Select(q => new SelectListItem
+            {
+                Value = q.ToString(),
+                Text = q.ToString()
+            }).ToList();
+
             var categories = await _categoryService.GetCategoriesAsync();
+            var categoryItems = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
 
             var model = new TestCreateModel
             {
-                QuestionTypes = questionTypes.Select(q => new SelectListItem
-                {
-                    Value = ((int)q).ToString(), 
-                    Text = q.ToString()          
-                }),
-                Categories = categories.Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                }),
-                Questions = new List<QuestionCreateModel>
-        {
-            new QuestionCreateModel
-            {
-                Answers = new List<AnswerCreateModel>
-                {
-                    new AnswerCreateModel(),
-                    new AnswerCreateModel(),
-                    new AnswerCreateModel(),
-                    new AnswerCreateModel()
-                }
-            }
-        }
+                QuestionTypes = questionTypeItems,
+                Categories = categoryItems
             };
 
             return View(model);
         }
+
 
         /// <summary>
         /// Тhe create test action

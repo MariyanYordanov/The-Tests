@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TheTests.Core.Contracts;
 using TheTests.Core.Models.Category;
 using TheTests.Infrastructure.Data.Common;
@@ -15,18 +16,24 @@ namespace TheTests.Core.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<CategoryModel>> GetCategoriesAsync()
+        public async Task<Category> AddCategoryAsync(CategoryModel model)
         {
-            var categories = await _repository
-                .AllReadonly<Category>()
-                .ToListAsync();
-
-            return categories.Select(c => new CategoryModel
+            var category = new Category
             {
-                Id = c.Id,
-                Name = c.Name
-            });
+                Name = model.Name
+            };
+
+            await _repository.AddAsync(category);
+            await _repository.SaveChangesAsync();
+
+            return category;
         }
+
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+            return await _repository.AllReadonly<Category>().ToListAsync();
+        }
+
 
     }
 }

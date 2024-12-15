@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static TheTests.Core.ModelConstants;
+using static TheTests.Core.ErrorMessages;
 
 namespace TheTests.Core.Models.Category
 {
@@ -8,7 +9,9 @@ namespace TheTests.Core.Models.Category
         public int Id { get; set; }
 
         [Required]
-        [StringLength(MaxNameLength)]
+        [StringLength(MaxNameLength,
+            MinimumLength = MinNameLength, 
+            ErrorMessage = RequieredLength)]
         public string Name { get; set; } = string.Empty;
     }
 }
