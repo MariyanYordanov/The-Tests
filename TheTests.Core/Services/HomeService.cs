@@ -13,10 +13,10 @@ public class HomeService : IHomeService
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    public async Task<IEnumerable<TestModel>> GetAllTestAsync()
+    public async Task<IEnumerable<TestViewModel>> GetAllTestAsync()
     {
         return await _repository.AllReadonly<Test>()
-            .Select(t => new TestModel
+            .Select(t => new TestViewModel
             {
                 Id = t.Id,
                 Title = t.Title,

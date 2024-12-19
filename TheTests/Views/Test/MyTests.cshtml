@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TestViewModel>
+
+@{
+    ViewData["Title"] = "My Tests";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">My Tests</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You have not created any tests yet. <a href="@Url.Action("CreateTest", "Test")">Create a new test</a>.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Statistics</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var test in Model)
+                {
+                    <tr>
+                        <td>@test.Title</td>
+                        <td>@test.CategoryName</td>
+                        <td>
+                            @if ((bool)test.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!(bool)test.IsActive)
+                            {
+                                <form asp-action="ActivateTest" asp-controller="Test" method="post" class="d-inline">
+                                    <input type="hidden" name="testId" value="@test.Id" />
+                                    <button type="submit" class="btn btn-sm btn-primary">Activate</button>
+                                </form>
+                            }
+
+                            <a href="@Url.Action("Solve", "Test", new { testId = test.Id })"
+                               class="btn btn-sm btn-secondary"
+                            @((bool)test.IsActive ? "" : "disabled")>Solve</a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Statistics", "Test", new { testId = test.Id })"
+                               class="btn btn-sm btn-info">View Statistics</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

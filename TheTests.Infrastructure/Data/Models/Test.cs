@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static TheTests.Infrastructure.Constants;
 
 namespace TheTests.Infrastructure.Data.Models
@@ -13,6 +14,8 @@ namespace TheTests.Infrastructure.Data.Models
         /// <summary>
         /// The unique identifier for the test.
         /// </summary>
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -25,14 +28,13 @@ namespace TheTests.Infrastructure.Data.Models
         /// <summary>
         /// The description of the test.
         /// </summary>
-        [Required]
         [StringLength(MaxDescriptionLength)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// The type of the question.
+        /// The time limit of the test.
         /// </summary>
-        public QuestionType QuestionType { get; set; }
+        public bool IsActive{ get; set; } = false;
 
         /// <summary>
         /// The creator of the test.

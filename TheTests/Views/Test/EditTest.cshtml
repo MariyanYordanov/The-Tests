@@ -1,0 +1,143 @@
+﻿@model TestEditModel
+
+<div class="container mt-4">
+    <h1>Edit Test</h1>
+    <form asp-action="EditTest" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Test Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Test Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Questions Section -->
+        <div id="questions-container">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                <div class="card mb-3 question-card">
+                    <div class="card-body">
+                        <h5>Question @i</h5>
+                        <input type="hidden" asp-for="Questions[@i].Id" />
+                        <div class="mb-3">
+                            <label asp-for="Questions[@i].Text" class="form-label">Question Text</label>
+                            <input asp-for="Questions[@i].Text" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Questions[@i].Points" class="form-label">Points</label>
+                            <input asp-for="Questions[@i].Points" class="form-control" />
+                        </div>
+                        <div>
+                            <h6>Answers</h6>
+                            <div class="answers-container">
+                                @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <input type="hidden" asp-for="Questions[0].Answers[0].IsCorrect" value="false" />
+                                        <input asp-for="Questions[0].Answers[0].IsCorrect" type="checkbox" value="true" />
+
+                                        <label>Correct</label>
+                                    </div>
+                                }
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm add-answer-btn">Add Answer</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button type="button" class="btn btn-primary" id="add-question-btn">Add Question</button>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const questionsContainer = document.getElementById("questions-container");
+
+        document.getElementById("add-question-btn").addEventListener("click", () => {
+            const questionIndex = questionsContainer.children.length;
+            const questionCard = `
+    <div class="card mb-3 question-card">
+        <div class="card-body">
+            <h5>Question ${questionIndex + 1}</h5>
+                <input type="hidden" asp-for="Questions[${questionIndex}].Id" value="0" />
+            <div class="mb-3">
+                <label>Question Text</label>
+                    <input type="text" asp-for="Questions[${questionIndex}].Text" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label>Points</label>
+                    <input type="number" asp-for="Questions[${questionIndex}].Points" class="form-control" required />
+            </div>
+            <div>
+                <h6>Answers</h6>
+                <div class="answers-container">
+                    <div class="d-flex align-items-center mb-2">
+                            <input type="text" asp-for="Questions[${questionIndex}].Answers[0].Text" class="form-control me-2" required />
+                            <input type="checkbox" asp-for="Questions[${questionIndex}].Answers[0].IsCorrect" />
+                        <label>Correct</label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm add-answer-btn">Add Answer</button>
+            </div>
+        </div>
+    </div>
+            `;
+            questionsContainer.insertAdjacentHTML("beforeend", questionCard);
+        });
+
+        document.addEventListener("click", (event) => {
+            if (event.target.classList.contains("add-answer-btn")) {
+                const answersContainer = event.target.closest(".card-body").querySelector(".answers-container");
+                const answerIndex = answersContainer.children.length;
+                const questionIndex = Array.from(questionsContainer.children).indexOf(event.target.closest(".question-card"));
+
+                const answerRow = `
+    <div class="d-flex align-items-center mb-2">
+            <input type="text" asp-for="Questions[${questionIndex}].Answers[${answerIndex}].Text" class="form-control me-2" required />
+            <input type="checkbox" asp-for="Questions[${questionIndex}].Answers[${answerIndex}].IsCorrect" />
+        <label>Correct</label>
+    </div>
+                `;
+                answersContainer.insertAdjacentHTML("beforeend", answerRow);
+            }
+        });
+    });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            console.log(`Field Name: ${input.name}, Value: ${input.value}`);
+        });
+
+        const hiddenId = document.querySelector('input[name="Id"]');
+        if (!hiddenId || !hiddenId.value) {
+            console.error("Test ID (hidden field) is missing or empty!");
+        }
+    });
+
+    const questionCards = document.querySelectorAll('.question-card');
+    questionCards.forEach((card, index) => {
+        console.log(`Question ${index + 1}:`);
+
+        const questionText = card.querySelector('input[name^="Questions"][name$=".Text"]');
+        console.log(`  Text: ${questionText ? questionText.value : 'Missing'}`);
+
+        const answers = card.querySelectorAll('.answer-row');
+        answers.forEach((answer, aIndex) => {
+            const answerText = answer.querySelector('input[name$=".Text"]');
+            const isCorrect = answer.querySelector('input[name$=".IsCorrect"]');
+            console.log(`    Answer ${aIndex + 1}: ${answerText ? answerText.value : 'Missing'}, IsCorrect: ${isCorrect ? isCorrect.checked : 'Missing'}`);
+        });
+    });
+</script>

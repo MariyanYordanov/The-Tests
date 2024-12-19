@@ -20,6 +20,9 @@ namespace TheTests.Core.Models.Question
         /// The title of the question.
         /// </summary>
         [Required(ErrorMessage = RequierdField)]
+        [StringLength(MaxTitleLength,
+            MinimumLength = MinTitleLength,
+            ErrorMessage = RequieredLength)]
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
@@ -31,11 +34,10 @@ namespace TheTests.Core.Models.Question
         /// <summary>
         /// The description of the question.
         /// </summary>
-        [Required]
         [StringLength(MaxDescriptionLength, 
             MinimumLength = MinDescriptionLength, 
             ErrorMessage = RequieredLength)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         /// <summary>
         /// The test id of the question.

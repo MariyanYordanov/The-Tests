@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using TheTests.Core.Models.Question;
+using System.ComponentModel.DataAnnotations;
+using static TheTests.Core.ErrorMessages;
+using static TheTests.Core.ModelConstants;
 
 namespace TheTests.Core.Models.Test
 {
@@ -11,41 +13,34 @@ namespace TheTests.Core.Models.Test
         /// <summary>
         /// Test title
         /// </summary>
+        [Required(ErrorMessage = RequierdField)]
+        [StringLength(MaxTitleLength,
+            MinimumLength = MinTitleLength,
+            ErrorMessage = RequieredLength)]
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Test description
         /// </summary>
+        [StringLength(MaxDescriptionLength, 
+            MinimumLength = MinDescriptionLength, 
+            ErrorMessage = RequieredLength)]
         public string? Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Test creator
         /// </summary>
-        public string CreatorId { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Test category
-        /// </summary>
         public int CategoryId { get; set; }
 
-        /// <summary>
-        /// Selected question type
-        /// </summary>
-        public int SelectedQuestionType { get; set; }
 
         /// <summary>
-        /// The question types collection
+        /// The creator of the test
         /// </summary>
-        public IEnumerable<SelectListItem> QuestionTypes { get; set; } = new List<SelectListItem>();
+        public string? CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// The categories collection
         /// </summary>
         public IEnumerable<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
-
-        /// <summary>
-        /// The questions collection
-        /// </summary>
-        public List<QuestionCreateModel> Questions { get; set; } = new();
     }
 }

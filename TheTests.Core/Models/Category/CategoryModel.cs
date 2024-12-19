@@ -6,8 +6,10 @@ namespace TheTests.Core.Models.Category
 {
     public class CategoryModel
     {
+        /// <summary>
+        /// The minimum length of the name of the category
+        /// </summary>
         public int Id { get; set; }
-
         [Required]
         [StringLength(MaxNameLength,
             MinimumLength = MinNameLength, 

@@ -9,10 +9,11 @@ namespace TheTests.Controllers
 
         private readonly ICategoryService _categoryService;
 
-        public CategoryController()
+        public CategoryController(ICategoryService categoryService)
         {
-            
+            _categoryService = categoryService;
         }
+
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] CategoryModel model)
         {

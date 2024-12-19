@@ -1,0 +1,53 @@
+﻿@using TheTests.Core.Models.Question
+@model QuestionCreateModel
+
+@{
+    ViewData["Title"] = "Create Question";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Create Question</h1>
+
+    <form asp-action="CreateQuestion" method="post">
+        <div class="mb-3">
+            <label for="Text" class="form-label">Question Text</label>
+            <input asp-for="Text" class="form-control" />
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="Points" class="form-label">Points</label>
+            <input asp-for="Points" type="number" class="form-control" />
+            <span asp-validation-for="Points" class="text-danger"></span>
+        </div>
+
+        <h4>Answers</h4>
+        <div id="answers-container">
+            @for (var i = 0; i < Model.Answers.Count; i++)
+            {
+                <div class="mb-3 d-flex align-items-center">
+                    <input asp-for="Answers[i].Text" class="form-control me-2" placeholder="Answer @i" />
+                    <input asp-for="Answers[i].IsCorrect" type="checkbox" />
+                </div>
+            }
+        </div>
+        <button type="button" class="btn btn-secondary mt-2" id="add-answer-btn">Add Answer</button>
+
+        <button type="submit" class="btn btn-primary mt-4">Create Question</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("add-answer-btn").addEventListener("click", function () {
+            var container = document.getElementById("answers-container");
+            var newAnswer = `
+                <div class="mb-3 d-flex align-items-center">
+                    <input type="text" name="Answers[${container.children.length}].Text" class="form-control me-2" placeholder="New Answer" />
+                    <input type="checkbox" name="Answers[${container.children.length}].IsCorrect" />
+                </div>`;
+            container.insertAdjacentHTML('beforeend', newAnswer);
+        });
+    </script>
+}
+

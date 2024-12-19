@@ -4,6 +4,6 @@ namespace TheTests.Core.Contracts
 {
     public interface IHomeService
     {
-        Task<IEnumerable<TestModel>> GetAllTestAsync();
+        Task<IEnumerable<TestViewModel>> GetAllTestAsync();
     }
 }

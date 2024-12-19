@@ -29,12 +29,15 @@ namespace TheTests.Core.Services
             return category;
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        public async Task<IEnumerable<CategoryModel>> GetCategoriesAsync()
         {
-            return await _repository.AllReadonly<Category>().ToListAsync();
+            return await _repository.AllReadonly<Category>()
+                .Select(c => new CategoryModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
         }
-
-
     }
 }
 

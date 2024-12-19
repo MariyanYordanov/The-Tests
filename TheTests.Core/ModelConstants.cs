@@ -2,6 +2,9 @@
 {
     public static class ModelConstants
     {
+        public const int MinTitleLength = 1;
+        public const int MaxTitleLength = 50;
+
         public const int MinNameLength = 1;
         public const int MaxNameLength = 50;
 

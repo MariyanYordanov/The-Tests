@@ -146,7 +146,8 @@ namespace TheTests.Infrastructure.Data
                     Title = "Sample Test",
                     Description = "A test for demonstration purposes",
                     CreatorId = "1",
-                    CategoryId = 1
+                    CategoryId = 1,
+                    IsActive = false,
                 }
             );
 
