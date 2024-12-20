@@ -14,8 +14,6 @@ namespace TheTests.Infrastructure.Data.Models
         /// <summary>
         /// The unique identifier for the test.
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -57,6 +55,21 @@ namespace TheTests.Infrastructure.Data.Models
         /// The results of the test.
         /// </summary>
         public ICollection<Result> Results { get; set; } = new List<Result>();
+
+        /// <summary>
+        /// The date and time the test was created.
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// The date and time the test was last updated.
+        /// </summary>
+        public bool IsPublished { get; set; } = false;
+
+        /// <summary>
+        /// The duration of the test.
+        /// </summary>
+        public int PassPoints { get; set; }
     }
 }
 

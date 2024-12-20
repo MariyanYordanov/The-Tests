@@ -124,7 +124,7 @@ namespace TheTests.Infrastructure.Data
                     NormalizedUserName = "JOHN.DOE",
                     Email = "john.doe@example.com",
                     NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
-                    PasswordHash = hasher.HashPassword(null, "Password123!")
+                    PasswordHash = hasher.HashPassword(null, "Password123!"),
                 },
                 new AppUser
                 {
@@ -148,6 +148,8 @@ namespace TheTests.Infrastructure.Data
                     CreatorId = "1",
                     CategoryId = 1,
                     IsActive = false,
+                    IsPublished = false,
+                    CreatedAt = DateTime.UtcNow.Date
                 }
             );
 

@@ -2,6 +2,7 @@
 using TheTests.Infrastructure.Data.Models;
 using static TheTests.Infrastructure.Constants;
 using static TheTests.Core.ErrorMessages;
+using TheTests.Core.Models.Answer;
 
 namespace TheTests.Core.Models.Question
 {
@@ -40,9 +41,8 @@ namespace TheTests.Core.Models.Question
         public string? Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// The test id of the question.
+        /// The type of the question.
         /// </summary>
-        [Required(ErrorMessage = RequierdField)]
-        public QuestionType QuestionType { get; set; }
+        public ICollection<AnswerCreateModel> Answers { get; set; } = new List<AnswerCreateModel>();
     }
 }

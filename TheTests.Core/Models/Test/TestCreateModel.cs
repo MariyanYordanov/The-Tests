@@ -32,6 +32,10 @@ namespace TheTests.Core.Models.Test
         /// </summary>
         public int CategoryId { get; set; }
 
+        /// <summary>
+        /// Test time mininum limit
+        /// </summary>
+        public int PassPoints { get; set; } 
 
         /// <summary>
         /// The creator of the test

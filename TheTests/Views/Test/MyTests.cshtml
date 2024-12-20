@@ -19,7 +19,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
 <div class="container mt-4">
     <h1 class="mb-4">My Tests</h1>
 
@@ -28,7 +27,6 @@
         <div class="alert alert-info">
             You have not created any tests yet. <a href="@Url.Action("CreateTest", "Test")">Create a new test</a>.
         </div>
-
     }
     else
     {
@@ -62,9 +60,22 @@
                             {
                                 <span class="badge bg-warning">Inactive</span>
                             }
+
+                            @if ((bool)test.IsPublished)
+                            {
+                                <span class="badge bg-info">Published</span>
+                            }
                         </td>
                         <td>
-                            @if (!(bool)test.IsActive)
+                            @if ((bool)test.IsActive)
+                            {
+                                <form asp-controller="Test" asp-action="DeactivateTest" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="testId" value="@test.Id" />
+                                    <button type="submit" class="btn btn-sm btn-warning">Deactivate</button>
+                                </form>
+                            }
+                            else
                             {
                                 <form asp-controller="Test" asp-action="ActivateTest" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
@@ -73,23 +84,28 @@
                                 </form>
                             }
 
-                            <form asp-controller="Test" asp-action="SolveTest" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="testId" value="@test.Id" />
-                                <button type="submit" class="btn btn-sm btn-danger">Solve</button>
-                            </form>
+                            @if ((bool)test.IsPublished)
+                            {
+                                <form asp-controller="Test" asp-action="UnpublishTest" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="testId" value="@test.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Unpublish</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="Test" asp-action="PublishTest" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="testId" value="@test.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Publish</button>
+                                </form>
+                            }
 
-                            <form asp-controller="Test" asp-action="DeleteTest" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="testId" value="@test.Id" />
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            <a class="btn btn-outline-primary btn-sm"
+                               href="@Url.Action("SolveTest", "Test", new { testId = test.Id })">Solve</a>
 
-                            <form asp-controller="Test" asp-action="PublishTest" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="testId" value="@test.Id" />
-                                <button type="submit" class="btn btn-sm btn-secondary">Publish</button>
-                            </form>
+                            <a class="btn btn-sm btn-danger"
+                               href="@Url.Action("DeleteTest", "Test", new { testId = test.Id })">Delete</a>
                         </td>
                         <td>
                             <form asp-controller="Test" asp-action="Statistics" method="get">

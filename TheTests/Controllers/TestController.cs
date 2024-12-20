@@ -18,11 +18,55 @@ namespace TheTests.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnpublishTest(int testId)
+        {
+            try
+            {
+                await _testService.UnpublishTestAsync(testId, User.Id());
+                TempData["SuccessMessage"] = "Test unpublished successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to unpublish test: {ex.Message}";
+            }
+
+            return RedirectToAction("MyTests");
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int testId)
+        {
+            var test = await _testService.GetTestDetailsAsync(testId);
+            return View(test);
+        }
+
         [HttpGet]
         public async Task<IActionResult> MyTests()
         {
             var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
             return View(tests);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeactivateTest(int testId)
+        {
+            try
+            {
+                await _testService.DeactivateTestAsync(testId);
+                TempData["SuccessMessage"] = "Test deactivated successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to deactivate test: {ex.Message}";
+            }
+
+            return RedirectToAction("MyTests");
         }
 
 
@@ -97,7 +141,7 @@ namespace TheTests.Controllers
             }
 
             var testId = await _testService.CreateTestAsync(model);
-            return RedirectToAction("EditTest", new { testId});
+            return RedirectToAction("EditTest", new { testId });
         }
 
         [HttpGet]
@@ -184,6 +228,30 @@ namespace TheTests.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View("SolveTest", model);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete()
+        {
+            var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
+            return View(tests);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int testId)
+        {
+            try
+            {
+                await _testService.DeleteTestAsync(testId);
+                TempData["SuccessMessage"] = "Test deleted successfully!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to delete test: {ex.Message}";
+            }
+
+            return RedirectToAction("MyTests");
         }
 
     }

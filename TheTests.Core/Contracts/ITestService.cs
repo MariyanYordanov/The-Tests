@@ -25,5 +25,13 @@ namespace TheTests.Core.Contracts
         Task PublishTestAsync(int testId);
 
         Task<IEnumerable<TestViewModel>> GetPublishedTestsAsync();
+
+        Task<TestDetailsModel> GetTestDetailsAsync(int testId);
+
+        Task DeleteTestAsync(int testId);
+
+        Task DeactivateTestAsync(int testId);
+
+        Task UnpublishTestAsync(int testId, string userId);
     }
 }

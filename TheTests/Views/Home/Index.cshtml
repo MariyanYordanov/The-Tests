@@ -37,7 +37,7 @@
                             <p class="card-text">@test.Description</p>
                             <p class="card-text">Category: @test.CategoryName</p>
                             <form asp-controller="Test" asp-action="Details" method="get">
-                                <input type="hidden" name="testId" value="@test.Id" />
+                                <input type="hidden" asp-for="@test.Id" />
                                 <button type="submit" class="btn btn-primary">Solve Test</button>
                             </form>
                         </div>

@@ -49,6 +49,11 @@ namespace TheTests.Core.Models.Test
         /// The minimum length of the description.
         /// </summary>
         public int SolvedCount { get; set; }
-    }
+
+        /// <summary>
+        /// The minimum length of the description.
+        /// </summary>
+        public bool IsPublished{ get; set; }
+}
 }
 

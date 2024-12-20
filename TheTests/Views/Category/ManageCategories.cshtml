@@ -24,7 +24,7 @@
 <div class="container mt-4">
     <h1>Manage Categories</h1>
     <a asp-action="Add" class="btn btn-success mb-3">Add New Category</a>
-
+    <a asp-controller="Test" asp-action="CreateTest" class="btn btn-secondary mb-3">Back to Home</a>
     @if (!Model.Any())
     {
         <div class="alert alert-info">No categories available.</div>

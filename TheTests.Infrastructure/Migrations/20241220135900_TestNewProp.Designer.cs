@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheTests.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TheTests.Infrastructure.Data;
 namespace TheTests.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220135900_TestNewProp")]
+    partial class TestNewProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,7 +289,7 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "49e3a18d-840e-4af1-920f-d58282bdbe02",
+                            ConcurrencyStamp = "259424b4-979d-4dde-9093-5f3bc93c0d17",
                             Email = "john.doe@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
@@ -294,9 +297,9 @@ namespace TheTests.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAELntSze/9pyIemQY6kPtkCgJ4kmgrwRK8OrstJ7V0co+ndS+oemByATs+uUH5x0PgQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHD3QClg5wONh7FOZSOpWbZBAEC64FZ9MXeXebo9PzEGyHpdxX05oydRwhJeYxe7nQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1e2c065-e074-48ff-ba59-e1fb2e332450",
+                            SecurityStamp = "39e52bcb-527f-4196-9800-28c840b0cd4b",
                             TwoFactorEnabled = false,
                             UserName = "john.doe"
                         },
@@ -304,7 +307,7 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "37a744de-87f5-45cd-8e21-288f6001f7a3",
+                            ConcurrencyStamp = "e01220e8-4c17-4861-b714-1d7f897e41a5",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
@@ -312,9 +315,9 @@ namespace TheTests.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHo7rCAM867A+BgKQfBAm2xzL1GIZ4JSutVxJ9Wgdvm5Bf50e/8p7XccwSE6lp2VgQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEABlF2+0ujdKMSLEqQ93lmPbiLjfsgIkTgZHtZM+18AyHTca4mKEi1zIwkPsFhldGQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ca354140-cef2-4daf-ba6b-1c70b2ce755f",
+                            SecurityStamp = "7209d178-88e4-4a1a-93c4-17f93523d5ec",
                             TwoFactorEnabled = false,
                             UserName = "jane.smith"
                         });
@@ -443,7 +446,7 @@ namespace TheTests.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CompletedAt = new DateTime(2024, 12, 20, 16, 31, 6, 246, DateTimeKind.Utc).AddTicks(7100),
+                            CompletedAt = new DateTime(2024, 12, 20, 13, 58, 59, 611, DateTimeKind.Utc).AddTicks(938),
                             Score = 100,
                             TestId = 1,
                             UserId = "1"
@@ -503,7 +506,7 @@ namespace TheTests.Infrastructure.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2024, 12, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatorId = "1",
                             Description = "A test for demonstration purposes",
                             IsActive = false,

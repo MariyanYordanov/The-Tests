@@ -10,14 +10,11 @@ namespace TheTests.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHomeService _homeService;
         private readonly ITestService _testService;
-        private readonly IUserService _userService;
 
-        public HomeController(IHomeService homeService, ITestService testService)
+        public HomeController(ITestService testService)
         {
             _testService = testService;
-            _homeService = homeService;
         }
 
         public async Task<IActionResult> Index()

@@ -18,6 +18,75 @@ namespace TheTests.Core.Services
             _repository = repository;
         }
 
+        /// <summary>
+        /// The method returns all tests.
+        /// </summary>
+        /// <param name="testId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task DeleteTestAsync(int testId)
+        {
+            var test = await _repository.All<Test>().FirstOrDefaultAsync(t => t.Id == testId);
+            if (test == null)
+                throw new ArgumentException("Test not found.");
+
+            _repository.Delete(test);
+            await _repository.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// The method returns all tests.
+        /// </summary>
+        /// <param name="testId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<TestDetailsModel> GetTestDetailsAsync(int testId)
+        {
+            var test = await _repository.AllReadonly<Test>()
+                .Include(t => t.Questions)
+                .ThenInclude(q => q.Answers)
+                .FirstOrDefaultAsync(t => t.Id == testId);
+
+            if (test == null)
+                throw new ArgumentException("Test not found.");
+
+            var model = new TestDetailsModel
+            {
+                Id = test.Id,
+                Title = test.Title,
+                Description = test.Description,
+                Category = test.Category.Name,
+                Creator = test.Creator.UserName,
+                CreatedOn = test.CreatedAt,
+                IsActive = test.IsActive,
+                MaxPoints = test.Questions.Sum(q => q.Points),
+                PassPoints = test.PassPoints,
+                QuestionsCount = test.Questions.Count,
+                IsPublished = test.IsActive,
+                Questions = test.Questions.Select(q => new QuestionModel
+                {
+                    Id = q.Id,
+                    Description = q.Description,
+                    Points = q.Points,
+                    Answers = q.Answers.Select(a => new AnswerCreateModel
+                    {
+                        Id = a.Id,
+                        Text = a.Text,
+                        IsCorrect = a.IsCorrect
+                    }).ToList()
+                }).ToList()
+            };
+
+            return model;
+        }
+
+        /// <summary>
+        /// `The method evaluates the test.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<Result> EvaluateTestAsync(TestSubmissionModel model, string userId)
         {
             var test = await _repository.AllReadonly<Test>()
@@ -154,7 +223,10 @@ namespace TheTests.Core.Services
                 Description = model.Description,
                 CategoryId = model.CategoryId,
                 CreatorId = model.CreatorId,
-                IsActive = false
+                IsActive = false,
+                CreatedAt = DateTime.UtcNow,
+                PassPoints = model.PassPoints,
+                IsPublished = false
             };
 
             await _repository.AddAsync(test);
@@ -207,8 +279,6 @@ namespace TheTests.Core.Services
         /// </summаry>
         public async Task UpdateTestAsync(TestEditModel model)
         {
-            Console.WriteLine($"Updating Test. ID: {model.Id}, Title: {model.Title}");
-
             var test = await _repository.All<Test>()
                 .Include(t => t.Questions)
                 .ThenInclude(q => q.Answers)
@@ -219,25 +289,16 @@ namespace TheTests.Core.Services
                 throw new Exception($"Test with ID {model.Id} not found.");
             }
 
-            Console.WriteLine($"Loaded Test: {test.Title}, Questions: {test.Questions.Count}");
-
             test.Title = model.Title;
             test.Description = model.Description;
 
             foreach (var question in model.Questions)
             {
-                Console.WriteLine($"Processing Question ID: {question.Id}, Text: {question.Text}");
-
                 var existingQuestion = test.Questions.FirstOrDefault(q => q.Id == question.Id);
                 if (existingQuestion != null)
                 {
                     existingQuestion.Description = question.Text;
                     existingQuestion.Points = question.Points;
-
-                    foreach (var answer in question.Answers)
-                    {
-                        Console.WriteLine($"Processing Answer ID: {answer.Id}, Text: {answer.Text}, IsCorrect: {answer.IsCorrect}");
-                    }
                 }
             }
 
@@ -257,7 +318,10 @@ namespace TheTests.Core.Services
                     Id = t.Id,
                     Title = t.Title,
                     Description = t.Description,
-                    CategoryId = t.CategoryId
+                    CategoryId = t.CategoryId,
+                    CategoryName = t.Category.Name,
+                    IsActive = t.IsActive,
+                    SolvedCount = t.Results.Count
                 }).ToListAsync();
         }
 
@@ -290,6 +354,11 @@ namespace TheTests.Core.Services
                 }).ToList()
             };
         }
+
+        /// <summary>
+        /// The method returns all tests.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<TestViewModel>> GetPublishedTestsAsync()
         {
             var tests = await _repository.AllReadonly<Test>()
@@ -309,6 +378,12 @@ namespace TheTests.Core.Services
             return tests;
         }
 
+        /// <summary>
+        /// The method returns all tests.
+        /// </summary>
+        /// <param name="testId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Task PublishTestAsync(int testId)
         {
             var test = _repository.All<Test>().FirstOrDefault(t => t.Id == testId);
@@ -318,5 +393,30 @@ namespace TheTests.Core.Services
             test.IsActive = true;
             return _repository.SaveChangesAsync();
         }
+
+        public Task DeactivateTestAsync(int testId)
+        {
+            var test = _repository.All<Test>().FirstOrDefault(t => t.Id == testId);
+
+            if (test == null)
+                throw new ArgumentException("Test not found.");
+
+            test.IsActive = false;
+
+            return _repository.SaveChangesAsync();
+        }
+
+        public async Task UnpublishTestAsync(int testId, string userId)
+        {
+            var test = await _repository.All<Test>()
+                .FirstOrDefaultAsync(t => t.Id == testId && t.CreatorId == userId);
+
+            if (test == null)
+                throw new ArgumentException("Test not found or access denied.");
+
+            test.IsPublished = false; // Депубликуваме теста
+            await _repository.SaveChangesAsync();
+        }
+
     }
 }
