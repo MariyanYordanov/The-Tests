@@ -4,8 +4,8 @@ namespace TheTests.Core.Contracts
 {
     public interface IAnswerServices
     {
-        public Task<IList<AnswerModel>> GetAllAnswersByQuestionId(int questionId);
+        public Task<IList<AnswerEditModel>> GetAllAnswersByQuestionId(int questionId);
 
-        public Task CreateAnswerAsync(AnswerModel model);
+        public Task CreateAnswerAsync(AnswerEditModel model);
     }
 }

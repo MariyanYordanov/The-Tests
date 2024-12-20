@@ -47,7 +47,7 @@ namespace TheTests.Infrastructure.Data
                 .HasOne(t => t.Category)
                 .WithMany(c => c.Tests)
                 .HasForeignKey(t => t.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Test>()
                 .HasMany(t => t.Questions)

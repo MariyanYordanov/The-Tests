@@ -24,7 +24,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IAnswerServices, AnswerService>();
             services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IHomeService, HomeService>();

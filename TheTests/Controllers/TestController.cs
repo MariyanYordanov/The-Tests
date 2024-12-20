@@ -17,6 +17,21 @@ namespace TheTests.Controllers
             _categoryService = categoryService;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> MyTests()
+        {
+            var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
+            return View(tests);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActivateTest(int testId)
+        {
+            await _testService.ActivateTestAsync(testId, User.Id());
+            return RedirectToAction("MyTests");
+        }
+
         [HttpGet]
         public async Task<IActionResult> CreateTest()
         {
@@ -94,10 +109,6 @@ namespace TheTests.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTest(TestEditModel model)
         {
-            // Debug 1: Проверка на получените данни
-            Console.WriteLine($"EditTest called. Test ID: {model.Id}");
-            Console.WriteLine($"Model State IsValid: {ModelState.IsValid}");
-
             if (!ModelState.IsValid)
             {
                 foreach (var key in ModelState.Keys)
@@ -118,29 +129,18 @@ namespace TheTests.Controllers
             }
             catch (Exception ex)
             {
-                // Debug 2: Проверка на грешката при Update
-                Console.WriteLine($"Error updating test: {ex.Message}");
                 ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
                 return View(model);
             }
 
             return RedirectToAction("MyTests");
         }
-
-
-
-        [HttpGet]
-        public async Task<IActionResult> MyTests()
-        {
-            var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
-            return View(tests);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ActivateTest(int testId)
-        {
-            await _testService.ActivateTestAsync(testId, User.Id());
-            return RedirectToAction("MyTests");
-        }
+        /*dobre sega ]e trqbwa da си направя активиране на теста което означава да се пусне теста за решаване и след това да влезе резултата  в статистиката за теста, кой го е решил кога , с колко точки. това имам до момента -  [HttpPost]
+ public async Task<IActionResult> ActivateTest(int testId)
+ {
+     await _testService.ActivateTestAsync(testId, User.Id());
+     return RedirectToAction("MyTests");
+ } 
+*/
     }
 }

@@ -7,5 +7,12 @@ namespace TheTests.Core.Contracts
     {
         Task<Category> AddCategoryAsync(CategoryModel model);
         Task<IEnumerable<CategoryModel>> GetCategoriesAsync();
+
+        Task<Category> GetCategoryByIdAsync(int id);
+
+        Task UpdateCategory(CategoryModel model);
+
+        Task DeleteCategory(int id);
+        
     }
 }

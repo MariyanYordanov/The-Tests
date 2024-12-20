@@ -26,10 +26,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var test in Model)
+                @foreach (var test in Model.OrderByDescending(x => x.Id))
                 {
                     <tr>
-                        <td>@test.Title</td>
+                        <td>
+                            <a href="@Url.Action("EditTest", "Test", new { testId = test.Id })">@test.Title</a>
+                        </td>
                         <td>@test.CategoryName</td>
                         <td>
                             @if ((bool)test.IsActive)
@@ -50,9 +52,10 @@
                                 </form>
                             }
 
-                            <a href="@Url.Action("Solve", "Test", new { testId = test.Id })"
-                               class="btn btn-sm btn-secondary"
-                            @((bool)test.IsActive ? "" : "disabled")>Solve</a>
+                            <form asp-action="PublishTest" asp-controller="Test" method="post" class="d-inline">
+                                <input type="hidden" name="testId" value="@test.Id" />
+                                <button type="submit" class="btn btn-sm btn-secondary">Publish</button>
+                            </form>
                         </td>
                         <td>
                             <a href="@Url.Action("Statistics", "Test", new { testId = test.Id })"

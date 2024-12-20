@@ -4,34 +4,57 @@
     ViewData["Title"] = "Create Test";
 }
 
-    <form id="create-test-form" asp-action="CreateTest" method="post">
-        <input type="hidden" asp-for="CreatorId" />
-        @Html.AntiForgeryToken()
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
-        <!-- Test Title -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="container mt-4">
+    <h1>Create Test</h1>
+    <form asp-action="CreateTest" method="post">
+        @Html.AntiForgeryToken()
+        <!-- Test Details -->
         <div class="mb-3">
             <label asp-for="Title" class="form-label">Test Title</label>
             <input asp-for="Title" class="form-control" required />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
-        <!-- Test Description -->
         <div class="mb-3">
             <label asp-for="Description" class="form-label">Test Description</label>
-            <textarea asp-for="Description" class="form-control" rows="3" required></textarea>
+            <textarea asp-for="Description" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
-        <!-- Category Dropdown -->
+         <!-- Category Management -->
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label">Category</label>
-            <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories" required>
-                <option value="">-- Select a category --</option>
-            </select>
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <h3>Manage Categories</h3>
+            <div id="category-management">
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                    <option value="">-- Select a category --</option>
+                </select>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-secondary mt-3" onclick="location.href='@Url.Action("ManageCategories", "Category")'">
+                        Add Category
+                    </button>
+                </div>
+
+            </div>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary mt-3">Create Test</button>
+        <button type="submit" class="btn btn-success mt-4">Create Test</button> 
     </form>
-
+   
+</div>

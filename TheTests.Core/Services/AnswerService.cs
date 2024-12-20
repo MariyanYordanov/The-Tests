@@ -5,12 +5,12 @@ namespace TheTests.Core.Services
 {
     public class AnswerService : IAnswerServices
     {
-        public Task CreateAnswerAsync(AnswerModel model)
+        public Task CreateAnswerAsync(AnswerEditModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<AnswerModel>> GetAllAnswersByQuestionId(int questionId)
+        public Task<IList<AnswerEditModel>> GetAllAnswersByQuestionId(int questionId)
         {
             throw new NotImplementedException();
         }
