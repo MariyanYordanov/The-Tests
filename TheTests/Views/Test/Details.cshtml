@@ -1,5 +1,5 @@
 ﻿
-@model TestViewModel
+@model TestDetailsModel
 
 @{
     ViewData["Title"] = "Test Details";
@@ -14,7 +14,7 @@
         </div>
         <div class="card-body">
             <p><strong>Description:</strong> @Model.Description</p>
-            <p><strong>Category:</strong> @Model.CategoryName</p>
+            <p><strong>Category:</strong> @Model.Category</p>
             <p>
                 <strong>Status:</strong>
                 @if (Model.IsActive)
@@ -26,8 +26,10 @@
                     <span class="badge bg-warning">Inactive</span>
                 }
             </p>
-            <p><strong>Creator:</strong> @Model.CreatorId</p>
-            <p><strong>Times Solved:</strong> @Model.SolvedCount</p>
+            <p><strong>Creator:</strong> @Model.Creator</p>
+            <p><strong>Pass Points:</strong> @Model.PassPoints</p>
+            <p><strong>Max Points:</strong> @Model.MaxPoints</p>
+            <p><strong>Questions:</strong> @Model.QuestionsCount</p>
         </div>
         <div class="card-footer text-end">
             <a href="@Url.Action("Solve", "Test", new { testId = Model.Id })" class="btn btn-primary">Solve Test</a>

@@ -18,31 +18,25 @@ namespace TheTests.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UnpublishTest(int testId)
+        public async Task<IActionResult> Details(int testId)
         {
             try
             {
-                await _testService.UnpublishTestAsync(testId, User.Id());
-                TempData["SuccessMessage"] = "Test unpublished successfully.";
+                var test = await _testService.GetTestDetailsAsync(testId);
+                return View(test);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Failed to unpublish test: {ex.Message}";
+                TempData["ErrorMessage"] = "An unexpected error occurred.";
+                return RedirectToAction("Index", "Home");
             }
-
-            return RedirectToAction("MyTests");
         }
 
-
-
-        [HttpGet]
-        public async Task<IActionResult> Details(int testId)
-        {
-            var test = await _testService.GetTestDetailsAsync(testId);
-            return View(test);
-        }
 
         [HttpGet]
         public async Task<IActionResult> MyTests()
@@ -76,24 +70,6 @@ namespace TheTests.Controllers
         {
             await _testService.ActivateTestAsync(testId, User.Id());
             TempData["SuccessMessage"] = "Test activated successfully!";
-            return RedirectToAction("MyTests");
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PublishTest(int testId)
-        {
-            try
-            {
-                await _testService.PublishTestAsync(testId);
-                TempData["SuccessMessage"] = "Test published successfully!";
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"Failed to publish test: {ex.Message}";
-            }
-
             return RedirectToAction("MyTests");
         }
 

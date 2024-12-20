@@ -148,7 +148,6 @@ namespace TheTests.Infrastructure.Data
                     CreatorId = "1",
                     CategoryId = 1,
                     IsActive = false,
-                    IsPublished = false,
                     CreatedAt = DateTime.UtcNow.Date
                 }
             );

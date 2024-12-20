@@ -27,7 +27,7 @@
     <form asp-action="CreateTest" method="post">
 
         @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="CategoryId"/>
+        
         <!-- Test Details -->
         <div class="mb-3">
             <label asp-for="Title" class="form-label">Test Title</label>
@@ -48,6 +48,7 @@
                 <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
                     <option value="">-- Select a category --</option>
                 </select>
+                <input type="hidden" asp-for="CategoryId" />
                 <div class="mb-3">
                     <button type="button" class="btn btn-secondary mt-3" onclick="location.href='@Url.Action("ManageCategories", "Category")'">
                         Add Category

@@ -6,11 +6,10 @@ namespace TheTests.Core.Contracts
     public interface ITestService
     {
         Task<IEnumerable<TestViewModel>> GetAllTestsByUserIdAsync(string userId);
+
         Task<int> CreateTestAsync(TestCreateModel model);
 
         Task ActivateTestAsync(int testId, string userId);
-
-        Task<TestStatisticsViewModel> GetTestStatisticsAsync(int testId, string userId);
 
         Task<TestEditModel> EditTestAsync(int testId, string userId);
 
@@ -22,8 +21,6 @@ namespace TheTests.Core.Contracts
 
         Task<TestSolveModel> GetTestForSolvingAsync(int testId, string userId);
 
-        Task PublishTestAsync(int testId);
-
         Task<IEnumerable<TestViewModel>> GetPublishedTestsAsync();
 
         Task<TestDetailsModel> GetTestDetailsAsync(int testId);
@@ -32,6 +29,5 @@ namespace TheTests.Core.Contracts
 
         Task DeactivateTestAsync(int testId);
 
-        Task UnpublishTestAsync(int testId, string userId);
     }
 }

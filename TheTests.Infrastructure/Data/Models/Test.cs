@@ -62,11 +62,6 @@ namespace TheTests.Infrastructure.Data.Models
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// The date and time the test was last updated.
-        /// </summary>
-        public bool IsPublished { get; set; } = false;
-
-        /// <summary>
         /// The duration of the test.
         /// </summary>
         public int PassPoints { get; set; }
