@@ -4,7 +4,7 @@ using static TheTests.Core.ErrorMessages;
 
 namespace TheTests.Core.Models.AppUser
 {
-    public class AppUserModel
+    public class AppUserModel 
     {
         [Required]
         public string Id { get; set; } = null!;

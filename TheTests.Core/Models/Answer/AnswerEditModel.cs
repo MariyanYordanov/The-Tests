@@ -20,9 +20,14 @@ namespace TheTests.Core.Models.Answer
         public string Text { get; set; } = string.Empty;
 
         /// <summary>
-        /// Флаг, показващ дали отговорът е верен.
+        /// The answer is correct.
         /// </summary>
         public bool IsCorrect { get; set; }
-    }
+
+        /// <summary>
+        /// The question id.
+        /// </summary>
+        public int QuestionId{ get; set; }
+}
 }
 

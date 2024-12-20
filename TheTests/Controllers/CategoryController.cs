@@ -36,6 +36,7 @@ public class CategoryController : Controller
         await _categoryService.AddCategoryAsync(model);
         return RedirectToAction(nameof(ManageCategories));
     }
+
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -45,7 +46,6 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        // Map the data model to the view model
         var model = new CategoryModel
         {
             Id = category.Id,

@@ -23,8 +23,11 @@
 
 <div class="container mt-4">
     <h1>Create Test</h1>
+
     <form asp-action="CreateTest" method="post">
+
         @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CategoryId"/>
         <!-- Test Details -->
         <div class="mb-3">
             <label asp-for="Title" class="form-label">Test Title</label>

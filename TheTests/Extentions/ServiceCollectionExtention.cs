@@ -27,6 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAnswerServices, AnswerService>();
             services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

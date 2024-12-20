@@ -1,4 +1,5 @@
 ﻿using TheTests.Core.Models.Test;
+using TheTests.Infrastructure.Data.Models;
 
 namespace TheTests.Core.Contracts
 {
@@ -16,5 +17,13 @@ namespace TheTests.Core.Contracts
         Task UpdateTestAsync(TestEditModel model);
 
         Task<TestEditModel> GetTestForEditAsync(int testId, string userId);
+
+        Task<Result> EvaluateTestAsync(TestSubmissionModel model, string userId);
+
+        Task<TestSolveModel> GetTestForSolvingAsync(int testId, string userId);
+
+        Task PublishTestAsync(int testId);
+
+        Task<IEnumerable<TestViewModel>> GetPublishedTestsAsync();
     }
 }

@@ -25,12 +25,34 @@ namespace TheTests.Controllers
             return View(tests);
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ActivateTest(int testId)
         {
             await _testService.ActivateTestAsync(testId, User.Id());
+            TempData["SuccessMessage"] = "Test activated successfully!";
             return RedirectToAction("MyTests");
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PublishTest(int testId)
+        {
+            try
+            {
+                await _testService.PublishTestAsync(testId);
+                TempData["SuccessMessage"] = "Test published successfully!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to publish test: {ex.Message}";
+            }
+
+            return RedirectToAction("MyTests");
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> CreateTest()
@@ -135,12 +157,34 @@ namespace TheTests.Controllers
 
             return RedirectToAction("MyTests");
         }
-        /*dobre sega ]e trqbwa da си направя активиране на теста което означава да се пусне теста за решаване и след това да влезе резултата  в статистиката за теста, кой го е решил кога , с колко точки. това имам до момента -  [HttpPost]
- public async Task<IActionResult> ActivateTest(int testId)
- {
-     await _testService.ActivateTestAsync(testId, User.Id());
-     return RedirectToAction("MyTests");
- } 
-*/
+
+        [HttpGet]
+        public async Task<IActionResult> SolveTest(int testId)
+        {
+            var test = await _testService.GetTestForSolvingAsync(testId, User.Id());
+            if (test == null)
+            {
+                return NotFound("Test not found or you do not have access.");
+            }
+
+            return View(test);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitTest(TestSubmissionModel model)
+        {
+            try
+            {
+                var result = await _testService.EvaluateTestAsync(model, User.Id());
+                return RedirectToAction("Result", new { testId = result.TestId });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("SolveTest", model);
+            }
+        }
+
     }
 }

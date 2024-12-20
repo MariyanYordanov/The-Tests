@@ -1,0 +1,39 @@
+﻿
+@model TestViewModel
+
+@{
+    ViewData["Title"] = "Test Details";
+}
+
+<div class="container mt-4">
+    <h1>Details for Test: @Model.Title</h1>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="card-title">@Model.Title</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Category:</strong> @Model.CategoryName</p>
+            <p>
+                <strong>Status:</strong>
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning">Inactive</span>
+                }
+            </p>
+            <p><strong>Creator:</strong> @Model.CreatorId</p>
+            <p><strong>Times Solved:</strong> @Model.SolvedCount</p>
+        </div>
+        <div class="card-footer text-end">
+            <a href="@Url.Action("Solve", "Test", new { testId = Model.Id })" class="btn btn-primary">Solve Test</a>
+            <a href="@Url.Action("EditTest", "Test", new { testId = Model.Id })" class="btn btn-primary">Edit Test</a>
+            <a href="@Url.Action("MyTests", "Test")" class="btn btn-secondary">Back to My Tests</a>
+        </div>
+    </div>
+</div>
+

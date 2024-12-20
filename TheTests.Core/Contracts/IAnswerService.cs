@@ -6,6 +6,5 @@ namespace TheTests.Core.Contracts
     {
         public Task<IList<AnswerEditModel>> GetAllAnswersByQuestionId(int questionId);
 
-        public Task CreateAnswerAsync(AnswerEditModel model);
     }
 }
