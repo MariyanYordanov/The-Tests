@@ -181,35 +181,45 @@ namespace TheTests.Controllers
         [HttpGet]
         public async Task<IActionResult> SolveTest(int testId)
         {
-            var test = await _testService.GetTestForSolvingAsync(testId, User.Id());
-            if (test == null)
+            var model = await _testService.GetTestForSolvingAsync(testId);
+
+            if (model == null)
             {
-                return NotFound("Test not found or you do not have access.");
+                TempData["ErrorMessage"] = "Test not found.";
+                return RedirectToAction("Home", "Test");
             }
 
-            return View(test);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitTest(TestSubmissionModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Invalid test submission.";
+                return RedirectToAction("SolveTest", new { testId = model.Id });
+            }
+
             try
             {
-                var result = await _testService.EvaluateTestAsync(model, User.Id());
-                return RedirectToAction("Result", new { testId = result.TestId });
+                await _testService.EvaluateTestAsync(model,User.Id());
+                TempData["SuccessMessage"] = "Test submitted successfully!";
+                return RedirectToAction("MyResults", "Test");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View("SolveTest", model);
+                TempData["ErrorMessage"] = $"Failed to submit test: {ex.Message}";
+                return RedirectToAction("SolveTest", new { testId = model.Id });
             }
         }
+
         [HttpGet]
         [Route("Test/DeleteTest/Confirm/{testId}")]
         public IActionResult DeleteTest(int testId)
         {
-            return View(testId); // Предаваме идентификатора към изгледа
+            return View(testId); 
         }
 
         [HttpPost]

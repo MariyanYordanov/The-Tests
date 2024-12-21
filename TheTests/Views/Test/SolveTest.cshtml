@@ -1,58 +1,8 @@
-﻿@* @model TestSolveModel
-
-
-@{
-    ViewData["Title"] = "Solve Test";
-}
-
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-<div class="container mt-4">
-    <h1>@Model.Title</h1>
-    <form asp-action="SubmitTest" method="post">
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="Id" />
-        @foreach (var question in Model.Questions)
-        {
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5>@question.Text</h5>
-                    @foreach (var answer in question.Answers)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" asp-for="Id" value="@answer.Id" id="answer-@answer.Id">
-                            <label class="form-check-label" for="answer-@answer.Id">@answer.Text</label>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-        <button type="submit" class="btn btn-success">Submit</button>
-    </form>
-</div> *@
-
-@model TestSolveModel
-
+﻿@model TestSolveModel
 
 @{
     ViewData["Title"] = "Solve Test";
 }
-
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -73,7 +23,7 @@
 <div class="container mt-4">
     <h1>Solve Test: @Model.Title</h1>
 
-    <form asp-action="SubmitTest" method="post">
+    <form asp-action="SubmitTest" method="post" id="testForm">
         @Html.AntiForgeryToken()
 
         <input type="hidden" asp-for="Id" />
@@ -85,9 +35,9 @@
                 @foreach (var answer in question.Answers)
                 {
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" 
-                               id="answer-@answer.Id" 
-                               name="Answers[@question.Id]" 
+                        <input class="form-check-input" type="checkbox"
+                               id="answer-@answer.Id"
+                               name="Answers[@question.Id]"
                                value="@answer.Id" />
                         <label class="form-check-label" for="answer-@answer.Id">
                             @answer.Text
@@ -99,4 +49,17 @@
 
         <button type="submit" class="btn btn-success">Submit Test</button>
     </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("testForm").addEventListener("submit", function (e) {
+            const inputs = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (inputs.length === 0) {
+                e.preventDefault();
+                alert("You must select at least one answer for each question!");
+            }
+        });
+    </script>
+}
 </div>

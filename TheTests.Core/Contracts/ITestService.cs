@@ -19,7 +19,7 @@ namespace TheTests.Core.Contracts
 
         Task<Result> EvaluateTestAsync(TestSubmissionModel model, string userId);
 
-        Task<TestSolveModel> GetTestForSolvingAsync(int testId, string userId);
+        Task<TestSolveModel> GetTestForSolvingAsync(int testId);
 
         Task<IEnumerable<TestViewModel>> GetPublishedTestsAsync();
 

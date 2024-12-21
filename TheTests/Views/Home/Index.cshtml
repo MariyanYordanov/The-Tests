@@ -36,9 +36,10 @@
                             <h5 class="card-title">@test.Title</h5>
                             <p class="card-text">@test.Description</p>
                             <p class="card-text">Category: @test.CategoryName</p>
-                            <form asp-controller="Test" asp-action="Details" method="get">
-                                <input type="hidden" asp-for="@test.Id" value="@test.Id"/>
-                                <button type="submit" class="btn btn-primary">Solve Test</button>
+                            <form asp-controller="Test" asp-action="SolveTest" method="get">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="testId" value="@test.Id" />
+                                <button type="submit" class="btn btn-sm btn-info">Solve</button>
                             </form>
                         </div>
                     </div>

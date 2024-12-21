@@ -85,7 +85,7 @@ namespace TheTests.Core.Services
 
 
         /// <summary>
-        /// `The method evaluates the test.
+        /// The method evaluates the test.
         /// </summary>
         /// <param name="model"></param>
         /// <param name="userId"></param>
@@ -104,11 +104,18 @@ namespace TheTests.Core.Services
             }
 
             int totalPoints = 0;
+
             foreach (var question in test.Questions)
             {
+                if (!model.Answers.TryGetValue(question.Id, out List<int>? value))
+                {
+                    throw new ArgumentException($"No answers provided for question with ID {question.Id}.");
+                }
+
                 var correctAnswers = question.Answers.Where(a => a.IsCorrect).Select(a => a.Id).ToList();
-                var userAnswers = model.Answers[question.Id];
-                if (correctAnswers.SequenceEqual(userAnswers))
+                var userAnswers = value;
+
+                if (correctAnswers.OrderBy(a => a).SequenceEqual(userAnswers.OrderBy(a => a)))
                 {
                     totalPoints += question.Points;
                 }
@@ -135,16 +142,23 @@ namespace TheTests.Core.Services
         /// <param name="testId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<TestSolveModel> GetTestForSolvingAsync(int testId, string userId)
+        public async Task<TestSolveModel> GetTestForSolvingAsync(int testId)
         {
             var test = await _repository.AllReadonly<Test>()
                 .Include(t => t.Questions)
                 .ThenInclude(q => q.Answers)
-                .FirstOrDefaultAsync(t => t.Id == testId && t.IsActive);
+                .FirstOrDefaultAsync(t => t.Id == testId);
 
             if (test == null)
             {
-                return null;
+                Console.WriteLine($"Test with ID {testId} not found.");
+                throw new ArgumentException($"Test with ID {testId} not found.");
+            }
+
+            if (!test.IsActive)
+            {
+                Console.WriteLine($"Test with ID {testId} is inactive.");
+                throw new ArgumentException($"Test with ID {testId} is inactive.");
             }
 
             return new TestSolveModel
@@ -162,13 +176,16 @@ namespace TheTests.Core.Services
                     }).ToList()
                 }).ToList()
             };
-
         }
 
 
         /// <summary>
-        /// The method creates a question.
+        /// Тhe method activates the test.
         /// </summary>
+        /// <param name="testId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task ActivateTestAsync(int testId, string userId)
         {
             var test = await _repository.All<Test>()
@@ -182,10 +199,13 @@ namespace TheTests.Core.Services
             await _repository.SaveChangesAsync();
         }
 
-
         /// <summary>
-        /// The method creates a question.
+        /// The method creates a test.
         /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<int> CreateTestAsync(TestCreateModel model)
         {
             if (model == null)
@@ -219,9 +239,12 @@ namespace TheTests.Core.Services
         }
 
         /// <summary>
-        /// The method creates a question.
+        /// Тhe method returns a test for editing.
         /// </summary>
-        [HttpPost]
+        /// <param name="testId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<TestEditModel> EditTestAsync(int testId, string userId)
         {
             var test = await _repository.AllReadonly<Test>()
@@ -258,8 +281,11 @@ namespace TheTests.Core.Services
         }
 
         /// <summary>
-        /// The method updates the test.
-        /// </summаry>
+        /// Тhе method updates the test.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task UpdateTestAsync(TestEditModel model)
         {
             var test = await _repository.All<Test>()
@@ -290,8 +316,10 @@ namespace TheTests.Core.Services
         }
 
         /// <summary>
-        /// The method returns all tests created by the user.
+        /// The method returns all tests.
         /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<TestViewModel>> GetAllTestsByUserIdAsync(string userId)
         {
             return await _repository.AllReadonly<Test>()
@@ -308,6 +336,13 @@ namespace TheTests.Core.Services
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// The method returns a test for editing.
+        /// </summary>
+        /// <param name="testId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<TestEditModel>GetTestForEditAsync(int testId, string userId)
         {
             var test = await _repository.AllReadonly<Test>()
@@ -361,7 +396,12 @@ namespace TheTests.Core.Services
             return tests;
         }
 
-
+        /// <summary>
+        /// The method deactivates the test.
+        /// </summary>
+        /// <param name="testId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Task DeactivateTestAsync(int testId)
         {
             var test = _repository.All<Test>().FirstOrDefault(t => t.Id == testId);

@@ -56,7 +56,7 @@
                         </td>
 
                         <td>
-                            <form asp-controller="Test" asp-action="SolveTest" method="post">
+                            <form asp-controller="Test" asp-action="SolveTest" method="get">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="testId" value="@test.Id" />
                                 <button type="submit" class="btn btn-sm btn-info">Solve</button>
