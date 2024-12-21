@@ -1,0 +1,12 @@
+﻿@model int
+
+<div class="container mt-4">
+    <h1>Confirm Delete</h1>
+    <p>Are you sure you want to delete this test?</p>
+    <form asp-action="DeleteTestConfirmed" asp-controller="Test" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="testId" value="@Model" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="@Url.Action("MyTests", "Test")" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

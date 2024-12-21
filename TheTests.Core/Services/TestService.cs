@@ -26,12 +26,14 @@ namespace TheTests.Core.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task DeleteTestAsync(int testId)
         {
-            var test = await _repository.All<Test>().FirstOrDefaultAsync(t => t.Id == testId);
+            var test = await _repository.All<Test>()
+                .FirstOrDefaultAsync(t => t.Id == testId);
+
             if (test == null)
                 throw new ArgumentException("Test not found.");
 
-            _repository.Delete(test);
-            await _repository.SaveChangesAsync();
+            _repository.Delete(test); 
+            await _repository.SaveChangesAsync(); 
         }
 
         /// <summary>

@@ -205,22 +205,26 @@ namespace TheTests.Controllers
                 return View("SolveTest", model);
             }
         }
-
         [HttpGet]
-        public async Task<IActionResult> Delete()
+        [Route("Test/DeleteTest/Confirm/{testId}")]
+        public IActionResult DeleteTest(int testId)
         {
-            var tests = await _testService.GetAllTestsByUserIdAsync(User.Id());
-            return View(tests);
+            return View(testId); // Предаваме идентификатора към изгледа
         }
 
         [HttpPost]
+        [Route("Test/DeleteTest/Perform")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int testId)
+        public async Task<IActionResult> DeleteTestConfirmed(int testId)
         {
             try
             {
                 await _testService.DeleteTestAsync(testId);
                 TempData["SuccessMessage"] = "Test deleted successfully!";
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = $"Error: {ex.Message}";
             }
             catch (Exception ex)
             {
